@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funds Clearance Confirmation</title>
+    <style>
+        /* General Body and Container Styling */
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .email-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #007bff; /* Primary Blue */
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .content {
+            padding: 30px;
+        }
+        .welcome-disclaimer {
+            background-color: #e6f7ff; /* Light Blue */
+            color: #0056b3;
+            padding: 15px;
+            border-left: 5px solid #007bff;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+        /* Date and Homepage Link */
+        .date-info {
+            color: #6c757d;
+            font-size: 0.9em;
+            text-align: right;
+            margin-bottom: 10px;
+        }
+        /* Countdown Timer */
+        .countdown-box {
+            background-color: #f8f9fa;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .countdown {
+            font-size: 2.2em;
+            font-weight: bold;
+            color: #28a745; /* Success Green */
+            margin-top: 5px;
+        }
+        /* Main Withdrawal Button */
+        .button-primary {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #28a745;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .button-primary:hover {
+            background-color: #218838;
+        }
+        /* Verification and Details Sections */
+        .verification-area {
+            margin-top: 20px;
+            border-top: 1px solid #dee2e6;
+            padding-top: 20px;
+            display: none;
+            text-align: center;
+        }
+        .verification-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .verification-button {
+            padding: 10px 20px;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            background-color: white;
+            color: #007bff;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-grow: 1;
+        }
+        .verification-button:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        .account-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .button-final-submit {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .button-final-submit:hover {
+            background-color: #0056b3;
+        }
+        .success-message {
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.3em;
+            margin-top: 20px;
+            display: none;
+        }
+        /* Disclaimers */
+        .disclaimer-section {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f2f5;
+        }
+        .disclaimer-card {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            background-color: #fffae6;
+            border: 1px solid #ffc107;
+        }
+        .process-link {
+            cursor: pointer;
+            color: #007bff;
+            text-decoration: underline;
+        }
+        .loading-bar-container {
+            margin-top: 10px;
+            height: 10px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            overflow: hidden;
+            display: none;
+        }
+        .loading-bar {
+            height: 100%;
+            width: 0; 
+            background-color: #dc3545; 
+            transition: width 0.5s;
+        }
+        /* Footer */
+        .footer {
+            background-color: #343a40;
+            color: #adb5bd;
+            padding: 15px;
+            text-align: center;
+            font-size: 0.8em;
+        }
+        @media (max-width: 400px) {
+            .verification-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="email-container">
+        <div class="header">
+            <h1 style="margin: 0; font-size: 1.8em;">C24 Bank | Funds Clearance</h1>
+        </div>
+
+        <div class="content">
+            <!-- WELCOME CUSTOMER DISCLAIMER -->
+            <div class="welcome-disclaimer">
+                <p style="margin: 0;"><strong>Welcome, Valued Customer!</strong> This is an automated notification confirming the resolution of your recent transaction review.</p>
+            </div>
+
+            <!-- DATE AND HOMEPAGE -->
+            <div class="date-info">
+                <span>Confirmation Date: <span id="currentDate"></span></span> | 
+                <a href="#" style="color: #007bff; text-decoration: none;">Homepage</a>
+            </div>
+
+            <p style="font-size: 1.1em; color: #333;">
+                Dear **Mrs. Monika**,
+            </p>
+            <p>
+                We are pleased to confirm that the compliance review related to the transfer of **$155,000 USD** is **complete and resolved**.
+            </p>
+            
+            <!-- POSITIVE NOTE ON PENDING DELIVERY -->
+            <p style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 4px; font-weight: bold;">
+                Great news! Your funds of $155,000 USD have been successfully released from hold and are now available for pending delivery and withdrawal.
+            </p>
+
+            <!-- LIVE TIMER COUNTDOWN -->
+            <div class="countdown-box">
+                <p style="margin: 0; font-size: 0.9em;">Withdrawal window open for:</p>
+                <div class="countdown" id="countdown">30m 00s</div>
+            </div>
+
+            <!-- WITHDRAW OPTION BUTTON -->
+            <button class="button-primary" onclick="withdrawMoney()">Withdraw Available Funds</button>
+
+            <!-- STEP 1: VERIFICATION METHOD SELECTION -->
+            <div id="verificationArea" class="verification-area">
+                <p><strong>Step 1: Verify Deposit Account</strong></p>
+                <p style="font-size: 0.9em; color: #6c757d;">Please select your preferred method to proceed with verification.</p>
+                
+                <div class="verification-buttons">
+                    <button class="verification-button" onclick="completeVerification('PayPal')">Verify via PayPal</button>
+                    <button class="verification-button" onclick="completeVerification('Bank')">Verify via Bank</button>
+                </div>
+            </div>
+
+            <!-- STEP 2: ACCOUNT DETAILS ENTRY -->
+            <div id="detailsEntryArea" class="verification-area">
+                <p><strong>Step 2: Enter Account Information</strong></p>
+                <p style="font-size: 0.9em; color: #6c757d;">Please provide the final details for your deposit method.</p>
+                
+                <input type="text" id="accountInput" placeholder="Enter Account Details (e.g., IBAN or PayPal Email)" class="account-input" />
+                <button class="button-final-submit" onclick="submitDetails()">Confirm & Initiate Withdrawal</button>
+            </div>
+            
+            <!-- FINAL SUCCESS MESSAGE -->
+            <div id="successMessage" class="success-message">
+                <p style="margin: 0;">✅ Withdrawal Successfully Initiated!</p>
+                <p style="font-size: 0.8em; color: #6c757d; margin: 5px 0 0;">(Processing time subject to selected speed.)</p>
+            </div>
+            
+            <!-- DISCLAIMER SECTION -->
+            <div class="disclaimer-section">
+                <!-- UPGRADE SPEED DISCLAIMER -->
+                <div class="disclaimer-card" style="background-color: #fff0f0; border-color: #dc3545;">
+                    <p style="margin: 0; font-weight: bold; color: #dc3545;">
+                        🚀 Upgrade Withdrawal Speed:
+                    </p>
+                    <p style="margin: 5px 0 0;">
+                        Secure guaranteed same-day processing for an administrative fee of **$400**. Select 'Upgrade' during final confirmation.
+                    </p>
+                </div>
+
+                <!-- CHECK DELIVERY PROCESS DISCLAIMER -->
+                <div class="disclaimer-card">
+                    <p style="margin: 0;">
+                        Check Delivery Process: 
+                        <span class="process-link" onclick="checkDelivery()">Click to view current delivery status.</span>
+                    </p>
+                    <div id="loadingBarContainer" class="loading-bar-container">
+                        <div id="loadingBar" class="loading-bar"></div>
+                    </div>
+                    <p id="loadingStatus" style="margin-top: 5px; font-size: 0.85em; color: #6c757d; display: none;">
+                        Processing: 0% complete.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p style="margin: 0;">&copy;2025 C24 Bank - Financial Services.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+
+        // --- COUNTDOWN TIMER LOGIC (30 minutes) ---
+        let timeInMinutes = 30;
+        let timeInSeconds = timeInMinutes * 60;
+
+        const countdownElement = document.getElementById('countdown');
+
+        const countdownInterval = setInterval(() => {
+            const minutes = Math.floor(timeInSeconds / 60);
+            const seconds = timeInSeconds % 60;
+
+            countdownElement.textContent = `${minutes.toString().padStart(2, '0')}m ${seconds.toString().padStart(2, '0')}s`;
+
+            if (timeInSeconds <= 0) {
+                clearInterval(countdownInterval);
+                countdownElement.textContent = "EXPIRED";
+                document.querySelector('.button-primary').disabled = true;
+                document.querySelector('.button-primary').textContent = "Withdrawal Window Closed";
+            }
+
+            timeInSeconds--;
+        }, 1000);
+
+        // --- WITHDRAWAL FLOW LOGIC ---
+
+        function updateMainButton(text, disabled, color) {
+            const mainButton = document.querySelector('.button-primary');
+            mainButton.textContent = text;
+            mainButton.disabled = disabled;
+            if (color) {
+                mainButton.style.backgroundColor = color;
+            }
+        }
+
+        // 1. Initial click: Show Verification Area (Step 1)
+        function withdrawMoney() {
+            document.getElementById('verificationArea').style.display = 'block';
+            document.getElementById('detailsEntryArea').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+            
+            updateMainButton("Verification Required to Proceed", true, '#ffc107'); // Warning yellow
+        }
+
+        // 2. Verification method selected: Show Details Entry (Step 2)
+        function completeVerification(method) {
+            const inputField = document.getElementById('accountInput');
+
+            // Hide Step 1
+            document.getElementById('verificationArea').style.display = 'none';
+
+            // Show Step 2
+            document.getElementById('detailsEntryArea').style.display = 'block';
+
+            // Update Input Placeholder based on method
+            inputField.value = ''; // Clear previous input
+            if (method === 'PayPal') {
+                inputField.placeholder = "Enter your verified PayPal email address...";
+            } else if (method === 'Bank') {
+                inputField.placeholder = "Enter your bank's IBAN/Account Number...";
+            }
+            
+            updateMainButton(`Processing Verification via ${method}`, true, '#007bff');
+        }
+
+        // 3. Details submitted: Show Success
+        function submitDetails() {
+            // Check for a non-empty value (basic validation)
+            const inputVal = document.getElementById('accountInput').value.trim();
+            if (inputVal.length < 5) {
+                // Flash red border for feedback
+                document.getElementById('accountInput').style.border = '2px solid red';
+                setTimeout(() => { document.getElementById('accountInput').style.border = '1px solid #ccc'; }, 1000);
+                return;
+            }
+            
+            // Hide Step 2
+            document.getElementById('detailsEntryArea').style.display = 'none';
+
+            // Show Success Message
+            document.getElementById('successMessage').style.display = 'block';
+
+            // Update main button to final state
+            updateMainButton("Withdrawal SUCCESSFUL", false, '#28a745'); // Success green
+        }
+
+
+        // --- DELIVERY PROCESS LOGIC (25% Loading) ---
+        function checkDelivery() {
+            const container = document.getElementById('loadingBarContainer');
+            const status = document.getElementById('loadingStatus');
+            const loadingBar = document.getElementById('loadingBar');
+
+            // Show the loading bar and status
+            container.style.display = 'block';
+            status.style.display = 'block';
+
+            // Simulate the 25% load
+            loadingBar.style.width = '25%';
+            status.textContent = "Processing: 25% complete.";
+        }
+    </script>
+</body>
+</html>
+
