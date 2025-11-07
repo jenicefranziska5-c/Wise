@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Petition Site - Updated</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f9; color: #333; }
+        .container { max-width: 600px; margin: auto; background: #fff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        h1 { color: #004d99; text-align: center; margin-bottom: 5px; }
+        p.welcome { text-align: center; color: #666; margin-bottom: 20px; }
+        .header-info { text-align: center; margin-bottom: 20px; padding: 10px; background-color: #eaf3ff; border-radius: 5px; }
+        .timer { font-size: 2.5em; text-align: center; margin: 20px 0; font-weight: bold; color: #cc0000; }
+        label { display: block; margin-top: 15px; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"] { width: 100%; padding: 10px; margin-bottom: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        
+        /* Signature Canvas Styling */
+        #signatureCanvas {
+            border: 2px solid #333;
+            cursor: crosshair;
+            margin-top: 5px;
+            background-color: #ffffff;
+            touch-action: none; 
+        }
+        .signature-controls { text-align: center; margin-bottom: 15px; }
+        .clear-button { background-color: #ccc; color: #333; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em; }
+
+        button { background-color: #004d99; color: white; padding: 12px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 1em; width: 100%; margin-top: 20px; }
+        
+        /* Success Message Styling */
+        #successMessage {
+            display: none; /* Hidden by default */
+            padding: 15px;
+            background-color: #4CAF50; /* Green */
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .note { margin-top: 30px; text-align: center; font-size: 0.9em; color: #004d99; }
+        .contact-footer { margin-top: 10px; text-align: center; font-size: 0.8em; color: #666; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Official Petition Processing</h1>
+        <p class="welcome">**Welcome Client. Please provide the required information below to proceed.**</p>
+
+        <div class="header-info">
+            **Current Date & Time:** <span id="liveTime"></span>
+        </div>
+
+        <form id="petitionForm">
+            <label for="caseNumber">Enter Reference Number:</label>
+            <input type="text" id="caseNumber" name="caseNumber" placeholder="e.g., REF-12345" required>
+
+            <h2>Time Remaining to Submit:</h2>
+            <div class="timer" id="countdown"></div>
+            
+            <label>Draw Signature Below:</label>
+            <canvas id="signatureCanvas" width="540" height="100"></canvas>
+            <div class="signature-controls">
+                <button type="button" class="clear-button" onclick="clearSignature()">Clear Signature</button>
+            </div>
+            
+            <button type="submit">Submit Petition</button>
+        </form>
+        
+        <div id="successMessage">
+            Successfully Sent!
+        </div>
+
+        <hr>
+
+        <div class="note">
+            **Protect your bank account with services provided here.**
+        </div>
+
+        <div class="contact-footer">
+            Contact: generic.contact@email.com | &copy;2025
+        </div>
+
+    </div>
+
+    <script>
+        // Signature Drawing Logic (Previous code is here...)
+        const canvas = document.getElementById('signatureCanvas');
+        const ctx = canvas.getContext('2d');
+        let drawing = false;
+
+        function startPosition(e) {
+            drawing = true;
+            draw(e);
+        }
+
+        function endPosition() {
+            drawing = false;
+            ctx.beginPath();
+        }
+
+        function draw(e) {
+            if (!drawing) return;
+            e.preventDefault();
+
+            // Get coordinates considering touch or mouse
+            const rect = canvas.getBoundingClientRect();
+            let clientX, clientY;
+            if (e.touches) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = '#000000';
+
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+        }
+
+        function clearSignature() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Event listeners for drawing
+        canvas.addEventListener('mousedown', startPosition);
+        canvas.addEventListener('mouseup', endPosition);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('touchstart', startPosition);
+        canvas.addEventListener('touchend', endPosition);
+        canvas.addEventListener('touchmove', draw);
+
+
+        // Time and Countdown Logic (Previous code is here...)
+        function updateLiveTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US') + ' on ' + now.toLocaleDateString('en-US');
+            document.getElementById('liveTime').textContent = timeString;
+        }
+
+        function startCountdown() {
+            const twoDays = 2 * 24 * 60 * 60 * 1000;
+            const targetDate = new Date().getTime() + twoDays;
+
+            const x = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("countdown").innerHTML = "**TIME EXPIRED**";
+                }
+            }, 1000);
+        }
+
+        // --- NEW SUBMISSION LOGIC ---
+        const form = document.getElementById('petitionForm');
+        const successMessage = document.getElementById('successMessage');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Stop the form from submitting normally (reloading page)
+            
+            // In a real application, you would send data to a server here.
+            
+            // Display the success message
+            successMessage.style.display = 'block';
+            
+            // Optionally, clear the form fields after a "successful" submission
+            form.reset();
+            clearSignature();
+        });
+
+
+        // Start the functions on page load
+        updateLiveTime(); 
+        setInterval(updateLiveTime, 1000); 
+        startCountdown();
+    </script>
+</body>
+</html>
