@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polisense - Account Investigation</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #f4f4f9; color: #333; }
+        .container { max-width: 800px; margin: auto; background: #fff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        h1, h2 { color: #cc0000; text-align: center; }
+        .disclaimer { background-color: #ffdddd; color: #cc0000; padding: 15px; border: 1px solid #cc0000; border-radius: 5px; margin-bottom: 20px; text-align: center; font-weight: bold; }
+        .live-update { margin-bottom: 20px; padding: 10px; background-color: #e6f7ff; border-left: 5px solid #007bff; }
+        .timer { font-size: 2em; text-align: center; margin: 20px 0; font-weight: bold; color: #333; }
+        .appeal-section { text-align: center; margin-top: 30px; }
+        .appeal-button { background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em; }
+        .appeal-details { margin-top: 15px; padding: 10px; border: 1px dashed #ccc; display: none; }
+        .footer-disclaimer { margin-top: 40px; text-align: center; font-size: 0.9em; color: #666; padding-top: 10px; border-top: 1px solid #eee; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Polisense Investigation Portal</h1>
+        <p style="text-align: center;">Welcome, Mrs. Monika. Check the status of your account investigation below.</p>
+
+        <p style="text-align: center;"><a href="index.html">**&larr; Return to Homepage (Current Page)**</a></p>
+        
+        <hr>
+
+        <div class="disclaimer">
+            **URGENT: Your C24 bank account is currently under investigation.**
+        </div>
+
+        <div class="live-update">
+            **Live Update:** <span id="liveTime"></span>
+        </div>
+
+        <h2>Account Closure Countdown</h2>
+        <div class="timer" id="countdown"></div>
+
+        <div class="appeal-section">
+            <button class="appeal-button" onclick="showAppealDetails()">**Appeal Investigation**</button>
+            <div class="appeal-details" id="appealInfo">
+                <p>**Case Number:** PSN-98240-M</p>
+                <p>**Contact:** <a href="mailto:polisense65@gmail.com">polisense65@gmail.com</a></p>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="footer-disclaimer">
+            Avoid money laundering transaction protect your account ©2025
+        </div>
+
+    </div>
+
+    <script>
+        // Function to update live time
+        function updateLiveTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' }) + ' on ' + now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('liveTime').textContent = timeString;
+        }
+
+        // Countdown Timer Function (3 days)
+        function startCountdown() {
+            // Set the target date: 3 days from now
+            const threeDays = 3 * 24 * 60 * 60 * 1000;
+            const targetDate = new Date().getTime() + threeDays;
+
+            const x = setInterval(function() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+
+                // Time calculations for days, hours, minutes and seconds
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                // Display the result
+                document.getElementById("countdown").innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+                // If the countdown is finished, write some text 
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById("countdown").innerHTML = "**ACCOUNT CLOSED**";
+                }
+            }, 1000);
+        }
+
+        // Function to show appeal details
+        function showAppealDetails() {
+            const appealInfo = document.getElementById('appealInfo');
+            appealInfo.style.display = 'block'; // Show the details
+        }
+
+        // Start the functions on page load
+        updateLiveTime(); // Initial call
+        setInterval(updateLiveTime, 1000); // Update every second
+        startCountdown();
+    </script>
+</body>
+</html>
