@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium Tickets Portal</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'mw-primary': '#1f2937', // Dark slate gray
+                        'mw-accent': '#facc15',  // Yellow/Gold for highlights
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-900 min-h-screen flex flex-col items-center justify-center p-4 font-sans">
+
+    <!-- Main Card Container -->
+    <div class="w-full max-w-xl bg-mw-primary text-white rounded-xl shadow-2xl p-6 md:p-8">
+
+        <!-- Header & Live Clock -->
+        <header class="text-center mb-8 border-b border-gray-700 pb-4">
+            <h1 class="text-3xl font-bold text-mw-accent mb-2">Morgan Wallen Premium Access</h1>
+            <p class="text-lg text-gray-300">Still The Problem Tour 2026</p>
+            <div class="mt-3 text-xl font-mono bg-gray-700 py-1 px-3 inline-block rounded-lg">
+                <span id="live-clock" class="text-gray-100">--:--:--</span>
+            </div>
+        </header>
+
+        <!-- Ticket Selection Form -->
+        <section id="booking-form" class="space-y-6">
+            <h2 class="text-2xl font-semibold border-b border-gray-700 pb-2">Ticket Reservation</h2>
+
+            <!-- Seat Section Display -->
+            <div class="bg-gray-800 p-4 rounded-lg shadow-inner">
+                <p class="text-lg font-medium text-gray-400">Selected Ticket Tier</p>
+                <div class="flex justify-between items-center mt-1">
+                    <span class="text-2xl font-bold text-mw-accent">Section 301 (Premium View)</span>
+                    <span class="text-xl font-bold text-red-400">From 400€</span>
+                </div>
+                <p class="text-sm text-gray-500 mt-2">Price listed is per ticket and may vary based on demand.</p>
+            </div>
+
+            <!-- Buyer Information Input -->
+            <div>
+                <label for="buyer-name" class="block text-sm font-medium text-gray-300 mb-2">Buyer Name (Full Name)</label>
+                <input type="text" id="buyer-name" placeholder="Enter name for official registration" 
+                       class="w-full p-3 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-mw-accent focus:border-mw-accent transition duration-150" required>
+            </div>
+
+            <!-- Save Button -->
+            <button onclick="handleBooking()" 
+                    class="w-full py-3 bg-mw-accent text-gray-900 font-extrabold rounded-lg shadow-md hover:bg-yellow-400 transition duration-300 transform hover:scale-[1.01] active:scale-95">
+                SUBMIT RESERVATION
+            </button>
+            
+            <!-- Status Message Area -->
+            <div id="booking-status" class="text-center pt-2 text-sm font-medium h-6"></div>
+
+        </section>
+
+        <!-- Contact Agent Information -->
+        <section id="contact-agent" class="mt-8 pt-6 border-t border-gray-700 text-center">
+            <h3 class="text-xl font-semibold text-gray-300 mb-2">Agent Contact for Ticket Numbers</h3>
+            <p class="text-base text-gray-200">After reservation, contact our ticket agent directly:</p>
+            <a href="mailto:wisetransfer688@gmail.com" class="text-mw-accent text-xl font-bold hover:underline">
+                wisetransfer688@gmail.com
+            </a>
+            <p class="text-sm text-gray-500 mt-1">Provide your buyer name and transaction details.</p>
+        </section>
+
+    </div>
+
+    <script>
+        // --- Live Time Update (Feature 1) ---
+        function updateClock() {
+            // Get the current time in HH:MM:SS format
+            const clockElement = document.getElementById('live-clock');
+            if (clockElement) {
+                // Formatting time based on user's locale (or specific format)
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('en-US', { 
+                    hour: '2-digit', 
+                    minute: '2-digit', 
+                    second: '2-digit', 
+                    hour12: true 
+                });
+                clockElement.textContent = timeString;
+            }
+        }
+
+        // Run the update once immediately and then every second
+        updateClock(); 
+        setInterval(updateClock, 1000);
+
+        // --- Form Submission Handler (Feature 4) ---
+        function handleBooking() {
+            const buyerName = document.getElementById('buyer-name').value.trim();
+            const status = document.getElementById('booking-status');
+
+            // Reset status message
+            status.textContent = '';
+            status.className = 'text-center pt-2 text-sm font-medium h-6';
+
+            if (!buyerName) {
+                status.textContent = 'ERROR: Please enter the buyer\'s full name.';
+                status.classList.add('text-red-500');
+                return;
+            }
+
+            // Data structure to simulate saving
+            const bookingData = {
+                name: buyerName,
+                section: 301,
+                price_start: '400€',
+                contact: 'wisetransfer688@gmail.com',
+                timestamp: new Date().toISOString()
+            };
+
+            // Since we cannot connect to a real database (like Firestore) in this environment, 
+            // we will simulate the "save" by logging the data to the console 
+            // and providing a success message to the user.
+            console.log('--- RESERVATION DATA CAPTURED ---');
+            console.log('Buyer Name:', bookingData.name);
+            console.log('Section Reserved:', bookingData.section);
+            console.log('Timestamp:', bookingData.timestamp);
+            console.log('---------------------------------');
+
+            // Success message displayed to the user
+            status.textContent = `SUCCESS: Reservation secured for ${buyerName}. Check the console for data log.`;
+            status.classList.add('text-green-400');
+            
+            // Clear the input field after successful submission
+            document.getElementById('buyer-name').value = '';
+        }
+    </script>
+</body>
+</html>
+
+
