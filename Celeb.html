@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Celebrity Stream | Country Music</title>
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5a4bcf;
+            --accent: #ff3f34;
+            --gold: #ff9f43;
+            --bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: var(--bg);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            display: none;
+        }
+
+        .active { display: block; }
+
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        .content { padding: 25px; }
+
+        /* Song List */
+        .song-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        /* Subscription & Countdown */
+        .promo-box {
+            background: #fff5eb;
+            border: 2px dashed var(--gold);
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .countdown {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 10px 0;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: var(--primary);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-gold { background: var(--gold); margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<div id="loginPage" class="card active">
+    <header><h1>Fan Login</h1></header>
+    <div class="content">
+        <input type="text" id="user" placeholder="Username" style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #ddd; border-radius:8px;">
+        <input type="password" id="pass" placeholder="Password" style="width:100%; padding:12px; margin-bottom:15px; border:1px solid #ddd; border-radius:8px;">
+        <button class="btn" onclick="showHome()">Access Stream</button>
+    </div>
+</div>
+
+<div id="homePage" class="card">
+    <header>
+        <h1>Welcome to Celebrity Stream</h1>
+        <p>Premium Country Hits</p>
+    </header>
+    
+    <div class="content">
+        <h3>Trending Country Tracks</h3>
+        <div class="song-item"><span>Whiskey Lullaby</span> <strong>4:12</strong></div>
+        <div class="song-item"><span>Tennessee Whiskey</span> <strong>4:53</strong></div>
+        <div class="song-item"><span>Copperhead Road</span> <strong>4:29</strong></div>
+        <div class="song-item"><span>Jolene</span> <strong>2:41</strong></div>
+
+        <div class="promo-box">
+            <h3>Limited VIP Offer</h3>
+            <p>Full Access Ends In:</p>
+            <div id="timer" class="countdown">10:00</div>
+            <button class="btn btn-gold">Subscribe $9.99/mo</button>
+            <button class="btn btn-gold" style="background:#ff793f;">Lifetime Pass $49.99</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showHome() {
+        document.getElementById('loginPage').classList.remove('active');
+        document.getElementById('homePage').classList.add('active');
+        startTimer(600); 
+    }
+
+    function startTimer(duration) {
+        let timer = duration, minutes, seconds;
+        setInterval(function () {
+            minutes = parseInt(timer / 60, 10);
+            seconds = parseInt(timer % 60, 10);
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            document.getElementById('timer').textContent = minutes + ":" + seconds;
+            if (--timer < 0) timer = 0;
+        }, 1000);
+    }
+</script>
+
+</body>
+</html>
