@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revolut Home - Aries</title>
+    <style>
+        :root {
+            --revolut-black: #191C1F;
+            --revolut-blue: #7F84F6;
+            --revolut-gray: #2C2F34;
+            --text-main: #FFFFFF;
+            --text-sub: #9BA2AD;
+            --accent-orange: #F39C12;
+        }
+        body { font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: var(--revolut-black); color: var(--text-main); margin: 0; padding: 20px; display: flex; justify-content: center; }
+        .app-container { width: 100%; max-width: 420px; }
+        
+        /* Homepage Header */
+        .header { margin-bottom: 30px; }
+        .welcome { font-size: 24px; font-weight: 700; margin: 0; }
+        .rates { font-size: 14px; color: var(--revolut-blue); margin-top: 5px; font-weight: 500; }
+
+        /* Pending Card */
+        .transfer-card { background: var(--revolut-gray); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid #3d4148; }
+        .status-badge { display: flex; align-items: center; gap: 8px; color: var(--accent-orange); font-size: 12px; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; }
+        
+        .amount-main { font-size: 32px; font-weight: 700; margin-bottom: 5px; }
+        .fee-disclaimer { font-size: 13px; color: var(--text-sub); margin-bottom: 20px; }
+        .fee-disclaimer b { color: #ff5b5b; }
+
+        /* Timer */
+        .timer-section { background: rgba(243, 156, 18, 0.1); border: 1px solid rgba(243, 156, 18, 0.3); border-radius: 12px; padding: 15px; text-align: center; margin-bottom: 20px; }
+        .timer-label { font-size: 12px; color: var(--accent-orange); margin-bottom: 5px; text-transform: uppercase; }
+        #countdown { font-size: 28px; font-weight: 700; font-family: monospace; color: var(--text-main); }
+
+        /* Details */
+        .detail-row { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 12px; border-bottom: 1px solid #3d4148; padding-bottom: 8px; }
+        .label { color: var(--text-sub); }
+        .value { font-weight: 500; }
+        
+        .footer-note { font-size: 11px; color: var(--text-sub); text-align: center; margin-top: 20px; line-height: 1.4; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <div class="header">
+        <h1 class="welcome">Welcome, Aries</h1>
+        <div class="rates">EUR/USD: 1.1818 ▲ | USD/EUR: 0.8461 ▼</div>
+    </div>
+
+    <div class="transfer-card">
+        <div class="status-badge">
+            <span style="width: 8px; height: 8px; background: var(--accent-orange); border-radius: 50%;"></span>
+            Pending Transfer
+        </div>
+        
+        <div class="amount-main">25,000.00 €</div>
+        <div class="fee-disclaimer">Standard processing fee: <b>510.00 €</b> deducted upon clearance.</div>
+
+        <div class="timer-section">
+            <div class="timer-label">Estimated Security Clearance</div>
+            <div id="countdown">01:59:59</div>
+        </div>
+
+        <div class="detail-row">
+            <span class="label">Recipient</span>
+            <span class="value">Morgan Malmberg</span>
+        </div>
+        <div class="detail-row">
+            <span class="label">Bank</span>
+            <span class="value">Revolut Bank UAB</span>
+        </div>
+        <div class="detail-row" style="border:none;">
+            <span class="label">IBAN</span>
+            <span class="value">LT13 ... 9606</span>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        Funds are held securely by Revolut Bank UAB (Vilnius, Lithuania) during the mandatory compliance review period.
+    </div>
+</div>
+
+<script>
+    // Live Countdown Timer (2 Hours)
+    let totalSeconds = 7200; 
+    const timerElement = document.getElementById('countdown');
+
+    function updateTimer() {
+        const hrs = Math.floor(totalSeconds / 3600);
+        const mins = Math.floor((totalSeconds % 3600) / 60);
+        const secs = totalSeconds % 60;
+
+        timerElement.textContent = 
+            `${String(hrs).padStart(2, '0')}:${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        
+        if (totalSeconds > 0) {
+            totalSeconds--;
+        } else {
+            timerElement.textContent = "PROCESSING...";
+        }
+    }
+
+    setInterval(updateTimer, 1000);
+    updateTimer();
+</script>
+
+</body>
+</html>
